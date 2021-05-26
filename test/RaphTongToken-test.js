@@ -31,10 +31,6 @@ describe("RaphTongToken", function () {
       expect(await raphTongToken.balanceOf(owner.address)).to.equal(TOTAL_SUPPLY)
     })
 
-    it('Should transfer the total supply to owner', async function () {
-      expect(await raphTongToken)
-    })
-
     /* Spécial car dans le constructor*/
     it('Should emits a Transfer event of the TotalSupply', async function () {
       expect(raphTongToken.deployTransaction).to.emit(raphTongToken, 'Transfered').withArgs(ZERO_ADDRESS, owner.address, TOTAL_SUPPLY)
@@ -102,7 +98,7 @@ describe("RaphTongToken", function () {
     })
 
     it('Should increase the recipient balance', async function () {
-      expect(await raphTongToken.balanceOf(alice.address)).to.equal(TOTAL_SUPPLY.div(2))
+      expect(await raphTongToken.balanceOf(alice.address)).to.equal(TOTAL_SUPPLY.div(ethers.BigNumber.from('2'))) // equivaut .div(2)
     })
 
     it('Should revert if sender have not enough allowances', async function () {
@@ -133,7 +129,7 @@ describe("RaphTongToken", function () {
     })
 
     it('Should increase the total supply', async function () {
-      expect(await raphTongToken.totalSupply()).to.above(TOTAL_SUPPLY)
+      expect(await raphTongToken.totalSupply()).to.equal(TOTAL_SUPPLY.mul(2))   //.above(TOTAL_SUPPLY) 
     })
 
     it('Should revert if the sender is not the owner', async function () {

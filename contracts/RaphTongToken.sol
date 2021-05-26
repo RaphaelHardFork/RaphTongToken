@@ -10,16 +10,8 @@ contract RaphTongToken {
     mapping(address => mapping(address => uint256)) private _allowances;
     address private _owner;
 
-    event Transfered(
-        address indexed sender,
-        address indexed recipient,
-        uint256 amount
-    );
-    event Approved(
-        address indexed fundsOwner,
-        address indexed fundsManager,
-        uint256 amount
-    );
+    event Transfered(address indexed sender, address indexed recipient, uint256 amount);
+    event Approved(address indexed fundsOwner, address indexed fundsManager, uint256 amount);
     event Minted(uint256 amount);
 
     constructor(address owner_, uint256 totalSupply_) {
@@ -32,18 +24,12 @@ contract RaphTongToken {
     }
 
     modifier OnlyOwner() {
-        require(
-            msg.sender == _owner,
-            "RaphTongToken: you are not allowed to use this function."
-        );
+        require(msg.sender == _owner, "RaphTongToken: you are not allowed to use this function.");
         _;
     }
 
     function transfer(address recipient, uint256 amount) public {
-        require(
-            _balances[msg.sender] >= amount,
-            "RaphTongToken: Insuffisiant balance to tranfer funds."
-        );
+        require(_balances[msg.sender] >= amount, "RaphTongToken: Insuffisiant balance to tranfer funds.");
         require(recipient != address(0), "RaphTongToken: Cannot burn token");
         _balances[msg.sender] -= amount;
         _balances[recipient] += amount;
@@ -55,14 +41,8 @@ contract RaphTongToken {
         address recipient,
         uint256 amount
     ) public {
-        require(
-            _allowances[sender][msg.sender] > 0,
-            "RaphTongToken: you are not allowed to move funds of this address."
-        );
-        require(
-            _balances[sender] >= amount,
-            "RaphTongToken: Insuffisiant balance to tranfer funds."
-        );
+        require(_allowances[sender][msg.sender] > 0, "RaphTongToken: you are not allowed to move funds of this address." );
+        require(_balances[sender] >= amount, "RaphTongToken: Insuffisiant balance to tranfer funds.");
         require(recipient != address(0), "RaphTongToken: Cannot burn token");
         _balances[sender] -= amount;
         _balances[recipient] += amount;
